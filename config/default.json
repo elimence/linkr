@@ -1,0 +1,16 @@
+{
+  "port": 9000,
+  "package-json": "../package.json",
+  "log": {
+    "level": "info"
+  },
+  "helmet": {},
+  "boots": {},
+  "server": {
+    "secret": null,
+    "mongo": {
+      "uri": null,
+      "options": null
+    }
+  }
+}

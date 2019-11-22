@@ -1,0 +1,162 @@
+{
+  "name": "linkr",
+  "version": "0.0.1",
+  "description": "LINKr API Server",
+  "main": "./bin/index.js",
+  "module": "./index.js",
+  "homepage": "https://samako.org",
+  "repository": "https://github.com/elimence/url-shortener",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "author": {
+    "name": "Sam A.",
+    "email": "elimence@gmail.com"
+  },
+  "files": [
+    "yarn.lock",
+    "index.js",
+    "config/!(local)*",
+    "bin",
+    "lib",
+    "coverage",
+    "data",
+    "dist",
+    "docs"
+  ],
+  "scripts": {
+    "start": "node ./dist/bin",
+    "test": "nyc ava",
+    "pretest": "gulp lint",
+    "clean": "del dist",
+    "build": "npm-run-all --parallel 'build:!(blueprint|docs|schemas)'",
+    "prebuild": "yarn run clean",
+    "build:index": "babel --source-maps --out-dir ./dist ./index.js",
+    "build:lib": "babel --source-maps --ignore='*.spec.js' --out-dir ./dist/lib ./lib",
+    "build:bin": "babel --source-maps --out-dir ./dist/bin ./bin",
+    "build:favicon": "cpr favicon.ico dist/favicon.ico",
+    "build:docs": "aglio -i docs/index.apib -o dist/docs/index.html",
+    "prebuild:docs": "mkdirp dist/docs",
+    "build:blueprint": "aglio -c -i docs/index.apib -o dist/docs/index.apib",
+    "prebuild:blueprint": "mkdirp dist/docs",
+    "build:schemas": "mson-to-schemas dist/docs/index.apib dist/schemas",
+    "prebuild:schemas": "mkdirp dist/schemas",
+    "dist": "yarn run build",
+    "predist": "yarn test",
+    "package": "npm pack",
+    "prepackage": "yarn run dist",
+    "version": "command -v jq && cd container && npm version $(jq -r '.version' ../package.json) && git add package.json",
+    "preversion": "yarn run dist",
+    "postversion": "git push && git push --tags",
+    "format": "standard --fix",
+    "report": "nyc report",
+    "server": "babel-watch --watch config ./bin | bunyan",
+    "server:inspect": "nodemon ./node_modules/.bin/babel-node --inspect bin",
+    "ava:inspect": "node --inspect node_modules/ava/profile",
+    "ava:inspect:watch": "nodemon --inspect node_modules/ava/profile",
+    "watch": "gulp watch",
+    "watch:docs": "aglio -i docs/index.apib -s",
+    "watch:test": "ava --watch"
+  },
+  "babel": {
+    "plugins": [
+      "transform-async-generator-functions",
+      "transform-object-rest-spread"
+    ],
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
+  },
+  "ava": {
+    "files": [
+      "**/*.spec.js",
+      "!dist/**/*"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "babel": {
+      "babelrc": true,
+      "sourceMaps": "inline"
+    }
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 90,
+    "statements": 90,
+    "functions": 90,
+    "branches": 90,
+    "exclude": [
+      "bin/**/*.js",
+      "lib/server.js",
+      "**/index.js",
+      "dist/**/*.js"
+    ],
+    "reporter": [
+      "html",
+      "lcov",
+      "text"
+    ]
+  },
+  "engines": {
+    "node": "^11.9.0"
+  },
+  "dependencies": {
+    "babel": "^6.23.0",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "boom": "^7.3.0",
+    "bunyan": "^1.8.12",
+    "config": "^3.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.14.0",
+    "helmet": "^3.15.0",
+    "joi": "^14.3.1",
+    "jsonwebtoken": "^8.1.0",
+    "moment": "^2.20.1",
+    "mongoose": "^5.1.4",
+    "nanoid": "^2.1.7",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "ramda": "^0.26.1",
+    "request": "^2.85.0",
+    "request-promise": "^4.2.4",
+    "request-promise-native": "^1.0.3",
+    "serve-favicon": "^2.3.2",
+    "source-map-support": "^0.5.0",
+    "uuid": "^3.3.2",
+    "validator": "^11.0.0"
+  },
+  "devDependencies": {
+    "ava": "^0.23.0",
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.21.0",
+    "babel-plugin-transform-async-generator-functions": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.1.4",
+    "babel-watch": "^2.0.3",
+    "cpr": "^3.0.1",
+    "del-cli": "^1.0.0",
+    "gulp": "^3.9.1",
+    "gulp-cli": "^1.2.2",
+    "gulp-jsonlint": "^1.1.2",
+    "gulp-load-plugins": "^1.4.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-standard": "^10.0.0",
+    "gulp-watch": "^4.3.10",
+    "gulplog": "^1.0.0",
+    "mkdirp": "^0.5.1",
+    "nock": "^9.0.2",
+    "nodemon": "^1.11.0",
+    "npm-run-all": "^4.0.0",
+    "nyc": "^11.0.2",
+    "standard": "^10.0.1",
+    "supertest": "^3.0.0",
+    "testdouble": "^3.0.0"
+  }
+}

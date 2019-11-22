@@ -1,0 +1,11 @@
+{
+  "port": "PORT",
+  "log": {
+    "level": "LOG_LEVEL"
+  },
+  "server": {
+    "health": {
+      "delay": "HEALTH_DELAY"
+    }
+  }
+}
