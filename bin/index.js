@@ -35,7 +35,7 @@ const createApp = ({ pkg, isProduction }) => {
         ...error.output.payload,
         data: error.data,
         status,
-        stack: isProduction ? undefined: error.stack
+        stack: isProduction ? undefined : error.stack
       }
     })
   })
