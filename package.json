@@ -119,7 +119,7 @@
     "helmet": "^3.15.0",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.1.0",
-    "moment": "^2.20.1",
+    "moment": "^2.29.4",
     "mongoose": "^5.1.4",
     "nanoid": "^2.1.7",
     "passport": "^0.4.0",
