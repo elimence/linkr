@@ -118,7 +118,7 @@
     "express-device": "^0.4.2",
     "helmet": "^3.15.0",
     "joi": "^14.3.1",
-    "jsonwebtoken": "^8.1.0",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.20.1",
     "mongoose": "^5.1.4",
     "nanoid": "^2.1.7",
